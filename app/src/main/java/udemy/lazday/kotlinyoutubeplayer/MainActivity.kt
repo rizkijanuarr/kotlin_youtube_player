@@ -1,14 +1,16 @@
 package udemy.lazday.kotlinyoutubeplayer
 
 import android.os.Bundle
+import android.view.View
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.FullscreenListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
-
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,9 +28,24 @@ class MainActivity : AppCompatActivity() {
 
         youTubePlayerView.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
             override fun onReady(youTubePlayer: YouTubePlayer) {
-                val videoId = "S0Q4gqBUs7c"
-                youTubePlayer.loadVideo(videoId, 0f)
+                val videoId = "7Jm2Il2U-c0"
+                youTubePlayer.loadVideo(videoId, 0f) // langsung play
+//                youTubePlayer.cueVideo(videoId, 0f) // thumbnail
             }
         })
+
+        youTubePlayerView.addFullscreenListener(object : FullscreenListener {
+            override fun onEnterFullscreen(fullscreenView: View, exitFullscreen: () -> Unit) {
+                showMessage("enter fullscreen")
+            }
+
+            override fun onExitFullscreen() {
+                showMessage("exit fullscreen")
+            }
+        })
+    }
+
+    private fun showMessage(msg: String) {
+        Toast.makeText(applicationContext, msg, Toast.LENGTH_LONG).show()
     }
 }
